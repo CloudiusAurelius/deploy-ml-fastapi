@@ -17,6 +17,12 @@ This is my implementation of the project of the Udacity Nanodegree "Machine Lear
 	conda activate ml-fastapi
     ```
 
+### Additional code added
+- Data cleansing step in folder /data
+    - ```clean_data.py``` reads the input data, i.e., ```census.csv``` and outputs a csv file without blanks, i.e., ```census_cleaned.csv```
+- Model training...
+- Pipeline...
+
 
 # Original README from Udacity is preserved below:
 
