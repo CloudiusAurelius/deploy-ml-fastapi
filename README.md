@@ -1,3 +1,25 @@
+# deploy-ml-fastapi
+The starter package of this repository is a fork from: https://github.com/udacity/nd0821-c3-starter-code. 
+
+
+## Notes on the Project
+This is my implementation of the project of the Udacity Nanodegree "Machine Learning DevOps Engineer": "Deploying a ML Model to Cloud Application Platform with FastAPI"
+
+### Project Highlights
+
+- ...
+
+### Setup
+- the conda environment was set up with:
+    - creating the file _environment.yml_ and activating the environment with:
+    ```Bash		
+	conda env create -f environment.yml	
+	conda activate ml-fastapi
+    ```
+
+
+# Original README from Udacity is preserved below:
+
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
 
 # Environment Set up
