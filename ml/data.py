@@ -54,6 +54,7 @@ def process_data(
     X_continuous = X.drop(*[categorical_features], axis=1)
 
     if training is True:
+        # encode categorical features, binarize labels
         encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
@@ -64,7 +65,7 @@ def process_data(
             y = lb.transform(y.values).ravel()
         # Catch the case where y is None because we're doing inference.
         except AttributeError:
-            pass
+            print("No label provided, binarization is not possible.")
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb

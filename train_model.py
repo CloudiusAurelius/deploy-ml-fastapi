@@ -5,7 +5,8 @@ from ml.data import process_data
 from ml.model import train_model, compute_model_metrics, inference
 import pandas as pd
 import logging
-import joblib
+#import joblib
+import pickle
 
 
 # Set up logging
@@ -57,11 +58,19 @@ y_pred = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
 
 # Save the model to a file.
-joblib.dump(model, "log_reg_model.pkl")
+#joblib.dump(model, "log_reg_model.pkl")
+with open("./model/log_reg_model.pkl", "wb") as filehandler:
+    pickle.dump(model, filehandler)
 logger.info("Model exported")
 
-# Save the encoder and label binarizer to files.
-joblib.dump(encoder, "encoder.pkl")
+# Save the encoder to a file.
+#joblib.dump(encoder, "encoder.pkl")
+with open("./model/encoder.pkl", "wb") as filehandler:
+    pickle.dump(encoder, filehandler)
 logger.info("Encoder exported")
-joblib.dump(lb, "label_binarizer.pkl")
+
+# Save the label binarizer to a file.
+#joblib.dump(lb, "label_binarizer.pkl")
+with open("./model/label_binarizer.pkl", "wb") as filehandler:
+    pickle.dump(lb, filehandler)
 logger.info("Label binarizer exported")

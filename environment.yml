@@ -13,7 +13,7 @@ dependencies:
   - fastapi
   - uvicorn
   - logging
-  - joblib
+  - pickle
   
   
   
