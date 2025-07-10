@@ -22,6 +22,10 @@ This is my implementation of the project of the Udacity Nanodegree "Machine Lear
     - ```clean_data.py``` reads the input data, i.e., ```census.csv``` and outputs a csv file without blanks, i.e., ```census_cleaned.csv```
 - Model training...
 - Pipeline...
+- To test functions:
+    ```./tests/functions_tests.py```
+- To evaluate the model on slices:
+    ```evaluate_model.py```
 
 
 # Original README from Udacity is preserved below:

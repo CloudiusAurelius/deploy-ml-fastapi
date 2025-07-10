@@ -114,19 +114,18 @@ if __name__ == "__main__":
     )
 
 
-    # Evaluate slices for each categorical feature
+    # Evaluate slices for each categorical feature    
+    logger.info("Starting evaluation of model slices")
     for feature in cat_features:
         logger.info(f"Evaluating slices for feature: {feature}")
-        results = evaluate_slices(df, feature, model, encoder, label_column)
-        
-        # Log the results
-        for value, metrics in results.items():
-            precision, recall, fbeta = metrics
-            logger.info(f"Feature: {feature},\
-                Value: {value},\
-                Precision: {precision:.4f},\
-                Recall: {recall:.4f},\
-                F-beta: {fbeta:.4f}")
-    
+        evaluate_slices(
+            data=df,
+            feature=feature,
+            model=model,
+            encoder=encoder,
+            label_column=label_column
+        )
+        logger.info(f"Completed evaluation for feature: {feature}")     
+       
     logger.info("Evaluation completed")
   
