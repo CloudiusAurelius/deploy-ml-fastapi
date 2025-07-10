@@ -9,7 +9,7 @@ from ml.data import process_data
 from ml.model import compute_model_metrics, inference
 import logging
 
-def evaluate_slices(data, feature, model, encoder, label_column):
+def evaluate_slices(data, categorical_features, feature, model, encoder, label_column):
     """
     Evaluate model performance on slices of data for a categorical feature.
 
@@ -17,6 +17,8 @@ def evaluate_slices(data, feature, model, encoder, label_column):
     ----------
     data : pd.DataFrame
         The full dataset including categorical and label columns.
+    categorical_features : list[str]
+        List of categorical feature names. Encoding is applied to these features.
     feature : str
         The name of the categorical feature to slice on.
     model : sklearn model
@@ -34,24 +36,74 @@ def evaluate_slices(data, feature, model, encoder, label_column):
     results = {}
 
     for value in data[feature].unique():
+        # Slice the DataFrame for the current feature value
+        # Note: This assumes that the feature is categorical and has a finite set of values.
+        logging.info(f"Selecting slice of the data based on feature '{feature}' with value '{value}'")
         slice_df = data[data[feature] == value]
+        # Store the number of rows and columns in the slice
+        logging.info(f"Slice shape for feature '{feature}' with value '{value}': {slice_df.shape}")        
         if slice_df.empty:
+            logging.warning(f"Skipping slice for feature '{feature}' with value '{value}' due to empty data.")  
+            continue # Skip empty slices
+
+        # Process the data frame in evalution mode
+        logging.info(f"Data processing slice for feature '{feature}' with value '{value}'")
+        X_slice, y_slice, encoder, lb = process_data(
+            X=slice_df,
+            categorical_features=categorical_features,
+            label=label_column,
+            training=False,
+            encoder=encoder,
+            lb=lb
+        )    
+
+        # Predict using the model
+        # Note: Ensure that the model is compatible with the processed data.
+        if X_slice.empty or y_slice.empty:
+            logging.warning(f"Skipping slice for feature '{feature}' with value '{value}' due to empty data.")  
+            continue # Skip empty slices        
+        preds = inference(model, X_slice)
+
+        # Compute metrics
+        # Note: Ensure that the compute_model_metrics function is compatible with the model's output.
+        if len(np.unique(y_slice)) == 1:
+            # If there's only one class in y_slice, skip this slice
+            logging.warning(f"Skipping slice for feature '{feature}' with value '{value}' due to single class in y_slice.") 
             continue
-
-        X_slice = slice_df.drop(columns=[label_column])
-        y_slice = slice_df[label_column]
-
-        # Encode if necessary
-        X_encoded = encoder.transform(X_slice)
-        preds = inference(model, X_encoded)
-
         metrics = compute_model_metrics(y_slice, preds)
+        
+        # Store the results
         results[value] = metrics
+        logging.info(f"Evaluated slice for feature '{feature}' with value '{value}': {metrics}")
 
     return results
 
+
+def store_textfile(feature, results_feature):
+    """
+    Store the evaluation results for a specific feature in a text file.
+
+    Parameters
+    ----------
+    feature : str
+        The name of the categorical feature.
+    results_feature : dict
+        Dictionary mapping feature values to metric tuples (precision, recall, fbeta).    
+    """
+    with open(f"./model/slice_results_{feature}.txt", "w") as filehandler:
+        for value, metrics in results_feature.items():                
+            precision, recall, fbeta = metrics
+            filehandler.write(f"Feature: {feature},\
+                    Value: {value},\
+                    Precision: {precision:.4f},\
+                    Recall: {recall:.4f},\
+                    F-beta: {fbeta:.4f}\n")    
+
 if __name__ == "__main__":
 
+    # ----------------------------------------------------
+    # Set up logging and variables
+    # ----------------------------------------------------
 
     # Set up logging
     logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
@@ -68,8 +120,7 @@ if __name__ == "__main__":
     label_column = "salary"
     if label_column not in df.columns:
         raise ValueError("The label column 'salary' is not present in the DataFrame.")
-    
-       
+          
     
     # Define categorical features and label column
     cat_features = [
@@ -84,6 +135,10 @@ if __name__ == "__main__":
     ]
     
     
+    # ----------------------------------------------------
+    # Load the trained model, encoder, and label binarizer
+    # ----------------------------------------------------
+
     # Load the trained model, encoder and label binarizer
     logger.info("Loading model")        
     with open("./model/log_reg_model.pkl", "rb") as filehandler:
@@ -103,22 +158,18 @@ if __name__ == "__main__":
     logger.info("Loaded label binarizer successfully")
 
 
-    # Process data in evalution mode
-    X_train, y_train, encoder, lb = process_data(
-        X=df,
-        categorical_features=cat_features,
-        label=label_column,
-        training=False,
-        encoder=encoder,
-        lb=lb
-    )
 
-
-    # Evaluate slices for each categorical feature    
+    # ----------------------------------------------------
+    # Evaluate slices for each categorical feature
+    # ----------------------------------------------------
+    # This will iterate over each categorical feature and evaluate the model's performance on slices of the data.
+    # The results will be saved in text files for each feature.
+    # ----------------------------------------------------    
     logger.info("Starting evaluation of model slices")
     for feature in cat_features:
         logger.info(f"Evaluating slices for feature: {feature}")
-        evaluate_slices(
+        # Evaluate slices for the current feature
+        results_feature = evaluate_slices(
             data=df,
             feature=feature,
             model=model,
@@ -126,6 +177,10 @@ if __name__ == "__main__":
             label_column=label_column
         )
         logger.info(f"Completed evaluation for feature: {feature}")     
-       
+
+        # Store results in text file
+        store_textfile(feature, results_feature, logger=logger)
+        logger.info(f"Results for feature '{feature}' saved to file.")
+               
     logger.info("Evaluation completed")
   

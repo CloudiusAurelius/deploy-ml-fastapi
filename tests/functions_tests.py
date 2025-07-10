@@ -51,15 +51,16 @@ def test_inference_output_shape(data):
 def test_compute_model_metrics(data):
     """Test the model metrics computation and data types"""
     
+    # Unpack the data
     X_train, y_train, X_test, y_test = data
 
-    # test calculation of precision, recall, and f1 score 
+    # Test calculation of precision, recall, and f1 score 
     precision, recall, f1 = compute_model_metrics(y_test, y_test)
     assert precision == 1.0
     assert recall == 1.0
     assert f1 == 1.0
    
-    # test data types of metrics
+    # Test data types of metrics
     assert isinstance(precision, float)
     assert isinstance(recall, float)
     assert isinstance(f1, float)
