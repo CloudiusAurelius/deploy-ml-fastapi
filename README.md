@@ -12,20 +12,24 @@ This is my implementation of the project of the Udacity Nanodegree "Machine Lear
 ### Setup
 - the conda environment was set up with:
     - creating the file _environment.yml_ and activating the environment with:
-    ```Bash		
-	conda env create -f environment.yml	
-	conda activate ml-fastapi
-    ```
+```Bash		
+conda env create -f environment.yml	
+conda activate ml_fastapi
+```
 
 ### Additional code added
 - Data cleansing step in folder /data
     - ```clean_data.py``` reads the input data, i.e., ```census.csv``` and outputs a csv file without blanks, i.e., ```census_cleaned.csv```
 - Model training...
-- Pipeline...
+    ```./ml/model.py```
 - To test functions:
-    ```./tests/functions_tests.py```
+    ```pytest ./tests/unit_tests.py```
 - To evaluate the model on slices:
     ```evaluate_model.py```
+- ```run_model_train_test.sh```
+    - contains the Bash commands to execute every step of the model training/evaluation chain
+    - can be excuted to run the entire model training/evaluation chain
+    
 
 
 # Original README from Udacity is preserved below:

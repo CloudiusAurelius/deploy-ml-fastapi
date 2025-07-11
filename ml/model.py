@@ -1,4 +1,10 @@
-from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.metrics import fbeta_score,\
+    precision_score,\
+    recall_score,\
+    roc_auc_score
+import numpy as np
+import logging
+import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 
@@ -8,11 +14,10 @@ def train_model(
     X_train,
     y_train,
     grid_search=False,
-    param_grid = {
-            'C': [0.01, 0.1, 1, 10, 100],
-            'solver': ['liblinear', 'saga'],
-            'penalty': ['l1', 'l2']
-        }
+    param_grid = [
+        {'solver': ['liblinear'], 'penalty': ['l2'], 'C': [1, 10]},
+        {'solver': ['saga'], 'penalty': ['l2'], 'C': [1]}
+    ]
     ):
     """   
     This function creates a logistic regression model, fits it to the training data,
@@ -34,7 +39,7 @@ def train_model(
         Trained machine learning model.
     """
     # Create a logistic regression model
-    model = LogisticRegression(max_iter=1000)
+    model = LogisticRegression(max_iter=4000)
     
     # Tuned hyperparameters can be added here if needed
     # For example, you can use GridSearchCV or RandomizedSearchCV for hyperparameter tuning
@@ -47,9 +52,9 @@ def train_model(
         # Fit the grid search to the training data
         grid.fit(X_train, y_train)
 
-        model = grid_search.best_estimator_
-        print("Best parameters found:", grid_search.best_params_)
-        print("Best score from grid search:", grid_search.best_score_)
+        model = grid.best_estimator_
+        print("Best parameters found:", grid.best_params_)
+        print("Best score from grid search:", grid.best_score_)
 
     else:
         # Fit the model to the training data
@@ -78,7 +83,8 @@ def compute_model_metrics(y, preds):
     fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)
-    return precision, recall, fbeta
+    roc_auc = roc_auc_score(y, preds)
+    return precision, recall, fbeta, roc_auc
 
 
 def inference(model, X):
