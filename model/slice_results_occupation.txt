@@ -1,0 +1,15 @@
+Feature: occupation,                    Value:  Adm-clerical,                    Precision: 0.5064,                    Recall: 0.2327,                    F-beta: 0.3189,                    AUC: 0.5987
+Feature: occupation,                    Value:  Exec-managerial,                    Precision: 0.8904,                    Recall: 0.2973,                    F-beta: 0.4457,                    AUC: 0.6315
+Feature: occupation,                    Value:  Handlers-cleaners,                    Precision: 0.3889,                    Recall: 0.2442,                    F-beta: 0.3000,                    AUC: 0.6092
+Feature: occupation,                    Value:  Prof-specialty,                    Precision: 0.8389,                    Recall: 0.2996,                    F-beta: 0.4415,                    AUC: 0.6264
+Feature: occupation,                    Value:  Other-service,                    Precision: 0.2766,                    Recall: 0.1898,                    F-beta: 0.2251,                    AUC: 0.5841
+Feature: occupation,                    Value:  Sales,                    Precision: 0.7580,                    Recall: 0.2645,                    F-beta: 0.3922,                    AUC: 0.6167
+Feature: occupation,                    Value:  Craft-repair,                    Precision: 0.6074,                    Recall: 0.2131,                    F-beta: 0.3155,                    AUC: 0.5864
+Feature: occupation,                    Value:  Transport-moving,                    Precision: 0.6111,                    Recall: 0.2062,                    F-beta: 0.3084,                    AUC: 0.5867
+Feature: occupation,                    Value:  Farming-fishing,                    Precision: 0.5441,                    Recall: 0.3217,                    F-beta: 0.4044,                    AUC: 0.6432
+Feature: occupation,                    Value:  Machine-op-inspct,                    Precision: 0.4949,                    Recall: 0.1960,                    F-beta: 0.2808,                    AUC: 0.5837
+Feature: occupation,                    Value:  Tech-support,                    Precision: 0.7250,                    Recall: 0.2049,                    F-beta: 0.3196,                    AUC: 0.5854
+Feature: occupation,                    Value:  ?,                    Precision: 0.5408,                    Recall: 0.2775,                    F-beta: 0.3668,                    AUC: 0.6251
+Feature: occupation,                    Value:  Protective-serv,                    Precision: 0.7069,                    Recall: 0.1943,                    F-beta: 0.3048,                    AUC: 0.5778
+Feature: occupation,                    Value:  Armed-Forces,                    Precision: 1.0000,                    Recall: 0.0000,                    F-beta: 0.0000,                    AUC: 0.5000
+Feature: occupation,                    Value:  Priv-house-serv,                    Precision: 0.5000,                    Recall: 1.0000,                    F-beta: 0.6667,                    AUC: 0.9966

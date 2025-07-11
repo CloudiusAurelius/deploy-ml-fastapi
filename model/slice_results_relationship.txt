@@ -1,0 +1,6 @@
+Feature: relationship,                    Value:  Not-in-family,                    Precision: 0.5227,                    Recall: 0.3364,                    F-beta: 0.4094,                    AUC: 0.6506
+Feature: relationship,                    Value:  Husband,                    Precision: 0.8321,                    Recall: 0.2513,                    F-beta: 0.3860,                    AUC: 0.6050
+Feature: relationship,                    Value:  Wife,                    Precision: 0.7787,                    Recall: 0.2456,                    F-beta: 0.3735,                    AUC: 0.5912
+Feature: relationship,                    Value:  Own-child,                    Precision: 0.1765,                    Recall: 0.3582,                    F-beta: 0.2365,                    AUC: 0.6679
+Feature: relationship,                    Value:  Unmarried,                    Precision: 0.5248,                    Recall: 0.3394,                    F-beta: 0.4123,                    AUC: 0.6593
+Feature: relationship,                    Value:  Other-relative,                    Precision: 0.4118,                    Recall: 0.3784,                    F-beta: 0.3944,                    AUC: 0.6786

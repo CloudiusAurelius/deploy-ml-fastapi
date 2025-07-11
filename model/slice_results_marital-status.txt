@@ -1,0 +1,7 @@
+Feature: marital-status,                    Value:  Never-married,                    Precision: 0.3951,                    Recall: 0.3605,                    F-beta: 0.3770,                    AUC: 0.6669
+Feature: marital-status,                    Value:  Married-civ-spouse,                    Precision: 0.8227,                    Recall: 0.2510,                    F-beta: 0.3847,                    AUC: 0.6037
+Feature: marital-status,                    Value:  Divorced,                    Precision: 0.5502,                    Recall: 0.3197,                    F-beta: 0.4044,                    AUC: 0.6446
+Feature: marital-status,                    Value:  Married-spouse-absent,                    Precision: 0.5263,                    Recall: 0.2941,                    F-beta: 0.3774,                    AUC: 0.6353
+Feature: marital-status,                    Value:  Separated,                    Precision: 0.5106,                    Recall: 0.3636,                    F-beta: 0.4248,                    AUC: 0.6698
+Feature: marital-status,                    Value:  Married-AF-spouse,                    Precision: 1.0000,                    Recall: 0.1000,                    F-beta: 0.1818,                    AUC: 0.5500
+Feature: marital-status,                    Value:  Widowed,                    Precision: 0.5172,                    Recall: 0.3529,                    F-beta: 0.4196,                    AUC: 0.6611

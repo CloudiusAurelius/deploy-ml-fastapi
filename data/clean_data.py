@@ -32,10 +32,13 @@ if __name__ == "__main__":
     parser.add_argument("--output_file", "-o", help="Path to save the cleaned CSV (default: overwrite input)")
 
     args = parser.parse_args()
+    
 
     # Set up logging
     logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
     logger = logging.getLogger()
+
+    logger.info("Starting column name cleaning script")
 
     # Clean the column names in the input file and save to output file
     clean_column_names(args.input_file, args.output_file)

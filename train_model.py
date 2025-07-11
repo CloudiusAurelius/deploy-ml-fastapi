@@ -54,11 +54,11 @@ logger.info("Splitting data into training and test sets")
 train, test = train_test_split(data, test_size=0.20)
 logger.info("Data split completed")
 logger.info(f"Training data:\
-            number of rows: {train.shape[1]},\
-            number of columns: {train.shape[0]}")
+            number of rows: {train.shape[0]},\
+            number of columns: {train.shape[1]}")
 logger.info(f"Test data:\
-            number of rows: {test.shape[1]},\
-            number of columns: {test.shape[0]}")
+            number of rows: {test.shape[0]},\
+            number of columns: {test.shape[1]}")
 
 
 
@@ -82,6 +82,8 @@ X_test, y_test, _, _ = process_data(
 # Train and save a model.
 logger.info("Training model")
 model = train_model(X_train, y_train, grid_search=args.grid_search)
+# Save training date and time
+current_datetime = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Compute the model's predictions and metrics.
 logger.info("Computing model metrics")
@@ -104,10 +106,22 @@ with open("./model/model_metrics_training.txt", "w") as filehandler:
     filehandler.write(f"ROC AUC: {roc_auc:.4f}\n")
 
 # Save the model to a file.
+# --------------------------------------
 logger.info("Saving model to file")
+# Create a dictionary with model information.
+model_info = {
+    "name": "logistic_regression_model",
+    "created_at": current_datetime,
+    "model": model,
+    "params": model.get_params()
+}
+logging.info(f"Saving model with model info: {model_info}")
+
+# Save model with model info to a pickle file.
 with open("./model/log_reg_model.pkl", "wb") as filehandler:
-    pickle.dump(model, filehandler)
+    pickle.dump(model_info, filehandler)
 logger.info("Model exported")
+
 
 # Save the encoder to a file.
 logger.info("Saving encoder to file")

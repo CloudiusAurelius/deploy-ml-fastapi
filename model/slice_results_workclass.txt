@@ -1,0 +1,7 @@
+Feature: workclass,                    Value:  State-gov,                    Precision: 0.7652,                    Recall: 0.2493,                    F-beta: 0.3761,                    AUC: 0.6104
+Feature: workclass,                    Value:  Self-emp-not-inc,                    Precision: 0.7410,                    Recall: 0.2845,                    F-beta: 0.4112,                    AUC: 0.6225
+Feature: workclass,                    Value:  Private,                    Precision: 0.6986,                    Recall: 0.2559,                    F-beta: 0.3746,                    AUC: 0.6125
+Feature: workclass,                    Value:  Federal-gov,                    Precision: 0.7207,                    Recall: 0.2156,                    F-beta: 0.3320,                    AUC: 0.5815
+Feature: workclass,                    Value:  Local-gov,                    Precision: 0.6773,                    Recall: 0.2415,                    F-beta: 0.3560,                    AUC: 0.5967
+Feature: workclass,                    Value:  ?,                    Precision: 0.5408,                    Recall: 0.2775,                    F-beta: 0.3668,                    AUC: 0.6251
+Feature: workclass,                    Value:  Self-emp-inc,                    Precision: 0.9180,                    Recall: 0.3601,                    F-beta: 0.5173,                    AUC: 0.6598

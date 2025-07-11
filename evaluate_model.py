@@ -1,15 +1,11 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
-from model import train_model
-from tests.model_tests import evaluate_slices
-#import joblib
 import pickle
 from ml.data import process_data
 from ml.model import compute_model_metrics, inference
 import logging
 
-def evaluate_slices(data, categorical_features, feature, model, encoder, label_column):
+def evaluate_slices(data, categorical_features, feature, model, encoder, label_binarizer, label_column):
     """
     Evaluate model performance on slices of data for a categorical feature.
 
@@ -54,12 +50,13 @@ def evaluate_slices(data, categorical_features, feature, model, encoder, label_c
             label=label_column,
             training=False,
             encoder=encoder,
-            lb=lb
+            lb=label_binarizer
         )    
 
         # Predict using the model
         # Note: Ensure that the model is compatible with the processed data.
-        if X_slice.empty or y_slice.empty:
+        #if X_slice.empty or y_slice.empty:
+        if X_slice.size == 0 or y_slice.size == 0:
             logging.warning(f"Skipping slice for feature '{feature}' with value '{value}' due to empty data.")  
             continue # Skip empty slices        
         preds = inference(model, X_slice)
@@ -79,7 +76,7 @@ def evaluate_slices(data, categorical_features, feature, model, encoder, label_c
     return results
 
 
-def store_textfile(feature, results_feature):
+def store_textfile(feature, results_feature, outfilepath):
     """
     Store the evaluation results for a specific feature in a text file.
 
@@ -90,14 +87,15 @@ def store_textfile(feature, results_feature):
     results_feature : dict
         Dictionary mapping feature values to metric tuples (precision, recall, fbeta).    
     """
-    with open(f"./model/slice_results_{feature}.txt", "w") as filehandler:
+    with open(outfilepath, "w") as filehandler:
         for value, metrics in results_feature.items():                
-            precision, recall, fbeta = metrics
+            precision, recall, fbeta, auc = metrics
             filehandler.write(f"Feature: {feature},\
                     Value: {value},\
                     Precision: {precision:.4f},\
                     Recall: {recall:.4f},\
-                    F-beta: {fbeta:.4f}\n")    
+                    F-beta: {fbeta:.4f},\
+                    AUC: {auc:.4f}\n")
 
 if __name__ == "__main__":
 
@@ -109,6 +107,9 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
     logger = logging.getLogger()
 
+    logger.info("Starting model evaluation script")
+
+
     # Load the data
     logger.info("Loading data")
     df = pd.read_csv("data/census_cleaned.csv")
@@ -118,6 +119,7 @@ if __name__ == "__main__":
     # Note: Ensure this column exists in your DataFrame
     # If the column is not present, you may need to adjust the DataFrame accordingly.
     label_column = "salary"
+    logger.info(f"Label column: {label_column}")
     if label_column not in df.columns:
         raise ValueError("The label column 'salary' is not present in the DataFrame.")
           
@@ -133,7 +135,7 @@ if __name__ == "__main__":
     "sex",
     "native-country",
     ]
-    
+    logger.info(f"Categorical features: {cat_features}")
     
     # ----------------------------------------------------
     # Load the trained model, encoder, and label binarizer
@@ -142,8 +144,14 @@ if __name__ == "__main__":
     # Load the trained model, encoder and label binarizer
     logger.info("Loading model")        
     with open("./model/log_reg_model.pkl", "rb") as filehandler:
-        model = pickle.load(filehandler)    
-    logger.info("Model loaded successfully")
+        model_info = pickle.load(filehandler)
+    model = model_info["model"]
+    model_name = model_info["name"]
+    model_created_at = model_info["created_at"]
+    model_params = model_info["params"]
+    logger.info(f"Model '{model_name}' loaded successfully")
+    logger.info(f"Model created at: {model_created_at}")
+    logger.info(f"Model parameters: {model_params}")
     
     # Load the encoder
     logger.info("Loading encoder")
@@ -165,22 +173,27 @@ if __name__ == "__main__":
     # This will iterate over each categorical feature and evaluate the model's performance on slices of the data.
     # The results will be saved in text files for each feature.
     # ----------------------------------------------------    
+       
+    
     logger.info("Starting evaluation of model slices")
     for feature in cat_features:
         logger.info(f"Evaluating slices for feature: {feature}")
         # Evaluate slices for the current feature
         results_feature = evaluate_slices(
             data=df,
+            categorical_features=cat_features,
             feature=feature,
             model=model,
             encoder=encoder,
+            label_binarizer=lb,
             label_column=label_column
         )
         logger.info(f"Completed evaluation for feature: {feature}")     
 
-        # Store results in text file
-        store_textfile(feature, results_feature, logger=logger)
-        logger.info(f"Results for feature '{feature}' saved to file.")
+        # Store results in text file        
+        outfilepath = f"./model/slice_results_{feature}.txt"
+        store_textfile(feature, results_feature, outfilepath)
+        logger.info(f"Results for feature '{feature}' saved to {outfilepath}.\n\n")
                
     logger.info("Evaluation completed")
   
