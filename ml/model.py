@@ -3,8 +3,6 @@ from sklearn.metrics import fbeta_score,\
     recall_score,\
     roc_auc_score
 import numpy as np
-import logging
-import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 
@@ -92,7 +90,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : 
         Trained machine learning model.
     X : np.array
         Data used for prediction.

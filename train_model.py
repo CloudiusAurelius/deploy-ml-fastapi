@@ -53,12 +53,18 @@ data = pd.read_csv("data/census_cleaned.csv")
 logger.info("Splitting data into training and test sets")
 train, test = train_test_split(data, test_size=0.20)
 logger.info("Data split completed")
+
+# Log the number of rows and columns in the training and test data.
+train_n_rows = train.shape[0]
+train_n_columns = train.shape[1]
+test_n_rows = test.shape[0]
+test_n_columns = test.shape[1]
 logger.info(f"Training data:\
-            number of rows: {train.shape[0]},\
-            number of columns: {train.shape[1]}")
+            number of rows: {train_n_rows},\
+            number of columns: {train_n_columns}")
 logger.info(f"Test data:\
-            number of rows: {test.shape[0]},\
-            number of columns: {test.shape[1]}")
+            number of rows: {test_n_rows},\
+            number of columns: {test_n_columns}")
 
 
 
@@ -113,7 +119,17 @@ model_info = {
     "name": "logistic_regression_model",
     "created_at": current_datetime,
     "model": model,
-    "params": model.get_params()
+    "params": model.get_params(),
+    "precision": precision,
+    "recall": recall,
+    "fbeta": fbeta,
+    "roc_auc": roc_auc,
+    "rows_train": train_n_rows,
+    "columns_train": train_n_columns,
+    "rows_test": test_n_rows,
+    "columns_test": test_n_columns,
+    "categorical_features": cat_features,
+    "label_column": label_column,    
 }
 logging.info(f"Saving model with model info: {model_info}")
 

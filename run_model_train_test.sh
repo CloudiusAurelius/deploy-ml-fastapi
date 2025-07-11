@@ -37,3 +37,37 @@ echo "Evaluating model on slices..."
 echo "-----------------------------------------------------"
 echo "Executing code in ./evaluate_model.py"
 python ./evaluate_model.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
