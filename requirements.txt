@@ -7,7 +7,6 @@ jupyterlab
 fastapi
 uvicorn
 logging
-pickle
   
   
   
