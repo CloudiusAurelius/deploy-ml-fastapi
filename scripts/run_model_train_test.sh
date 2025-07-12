@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script runs the model training and evaluation process.
 
-# Set the environment variable for the model directory
-export MODEL_DIR="./model"  
+# Change working directory to the project root
+cd "$(dirname "$0")"/.. || exit 1
 
 
 # Clean the input dataecho 
