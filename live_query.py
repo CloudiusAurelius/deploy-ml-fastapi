@@ -28,7 +28,7 @@ data = {
 
 # Make the POST request to the API
 response = requests.post(\
-    url+'predict', data=json.dumps(data)
+    url+'/predict', data=json.dumps(data)
 )
     
 # Check if the request was successful
