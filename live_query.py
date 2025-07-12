@@ -33,6 +33,8 @@ response = requests.post(\
     
 # Check if the request was successful
 if response.status_code == 200:
+    print("Request was successful!")
+    print("Response status code:", response.status_code)
     # Parse the JSON response
     prediction = response.json()
     print("Prediction:", prediction)
