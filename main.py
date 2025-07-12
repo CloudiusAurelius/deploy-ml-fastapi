@@ -2,16 +2,24 @@
 # Contains the code of the API.
 # -----------------------------
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 import pickle
 import pandas as pd
+import logging
 
 from ml.data import process_data
 from ml.model import inference
 
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
+logger = logging.getLogger(__name__)
+
 # Instantiate the FastAPI app
+logger.info("Instantiating FastAPI app...")
 app = FastAPI()
+logger.info("FastAPI app instantiated")
 
 
 # Declare a Pydantic model for the input data
@@ -20,41 +28,106 @@ class InputData(BaseModel):
     Pydantic model for input data.
     This model defines the structure of the data expected in the prediction request.
     """
-    age: int
-    workclass: str
-    fnlgt: int
-    education: str
-    education_num: int
-    marital_status: str
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
-    native_country: str
-
+    age: int = Field(
+        default=39,
+        examples=[39],
+        description="Age of the individual"
+    )
+    workclass: str = Field(
+        default="State-gov",
+        examples=["State-gov"],
+        description="Type of work class"
+    )
+    fnlgt: int = Field(
+        default=77516,
+        examples=[77516]
+    )
+    education: str = Field(
+        default="Bachelors",
+        examples=["Bachelors"],
+        description="Education level"
+    )
+    education_num: int = Field(
+        default=13,
+        examples=[13],
+        description="Number of years of education"
+    )
+    marital_status: str = Field(
+        default="Never-married",
+        examples=["Never-married"], 
+        description="Marital status of the individual"
+    )
+    occupation: str = Field(
+        default="Adm-clerical",
+        examples=["Adm-clerical"],
+        description="Occupation of the individual"
+    )
+    relationship: str = Field(
+        default="Not-in-family",
+        examples=["Not-in-family"],
+        description="Relationship status of the individual"
+    )
+    relationship: str = Field(
+        default="Not-in-family",
+        examples=["Not-in-family"],
+        description="Relationship status of the individual"
+    )
+    race: str = Field(
+        default="White",
+        examples=["White"]
+    )        
+    sex: str = Field(
+        default="Male",
+        examples=["Male"]
+    )
+    capital_gain: int = Field(
+        default=2174,
+        examples=[2174],
+        description="Capital gain of the individual"
+    )
+    capital_loss: int = Field(
+        default=0,
+        examples=[0],
+        description="Capital loss of the individual"
+    )
+    hours_per_week: int = Field(
+        default=40,
+        examples=[40],
+        description="Hours worked per week"
+    )
+    native_country: str = Field(
+        default="United-States",
+        examples=["United-States"],
+        description="Country of origin"
+    )               
+ 
+   
   
 # Load the model, econder, and categorical features on startup
 @app.on_event("startup")
 def load_model():
-    with open("./model/log_reg_model.pkl", "rb") as filehandler:
-        app.state.model = pickle.load(filehandler)["model"]        
-    with open("./model/encoder.pkl", "rb") as filehandler:  
-        app.state.encoder = pickle.load(filehandler)
-    with open("./model/label_binarizer.pkl", "rb") as filehandler:
-        app.state.lb = pickle.load(filehandler)
-    app.state.categorical_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",    
-    ]
+    logger.info("Loading model and components on startup...")
+    try:
+        with open("./model/log_reg_model.pkl", "rb") as filehandler:
+            app.state.model = pickle.load(filehandler)["model"]        
+        with open("./model/encoder.pkl", "rb") as filehandler:  
+            app.state.encoder = pickle.load(filehandler)
+        with open("./model/label_binarizer.pkl", "rb") as filehandler:
+            app.state.lb = pickle.load(filehandler)
+        app.state.categorical_features = [
+            "workclass",
+            "education",
+            "marital-status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "native-country",    
+        ]
+    except Exception as e:
+        logger.error(f"Error loading model or components: {e}")
+        raise RuntimeError("Startup failed: could not\
+            load model or components") from e
 
 # Define a GET on the specified endpoint
 @app.get("/")
@@ -104,7 +177,7 @@ async def predict(data: InputData):
     # Note: 
     #   - y is empty (inference mode)  
     #   - label binarizer is not used in inference mode
-    X_api, _, encoder, _ = process_data(
+    X_api, _, _, _ = process_data(
         X=df_api, # Input DataFrame
         categorical_features=categorical_features, # Categorical features defined in the app state
         label=None, # No label column in inference mode
@@ -119,15 +192,7 @@ async def predict(data: InputData):
     # Convert predictions to human-readable format
     human_readable_preds = binarizer.inverse_transform(preds)
 
-    # Here you would typically load your model and make a prediction
-    # For demonstration, we return the input data as the prediction    
-    # Example test code for reference:
-    # computed_prediction = {
-    #     "feature1": data.feature1+1,
-    #     "feature2": data.feature2+1,
-    #     "feature3": data.feature3,
-    #     # Add more fields as required by your model
-    # }
+    
     return {
         "input_data": data.dict(),  # Return the input data as a dictionary
         "prediction": human_readable_preds.tolist()  # Convert numpy array to list for JSON serialization
