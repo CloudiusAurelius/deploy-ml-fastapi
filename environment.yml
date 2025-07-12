@@ -2,8 +2,7 @@ name: ml_fastapi
 channels:
   - conda-forge
   - defaults
-dependencies:
-  - python=3.8
+dependencies:  
   - scikit-learn
   - pandas
   - numpy

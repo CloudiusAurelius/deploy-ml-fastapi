@@ -7,7 +7,18 @@ This is my implementation of the project of the Udacity Nanodegree "Machine Lear
 
 ### Project Highlights
 
-- ...
+- End-to-End Machine Learning Pipeline
+    - Includes data cleaning, model training with hyperparameter tuning, evaluation on data slices, and deployment via an API.
+
+- Scikit-learn & FastAPI 
+    - Built with a Logistic Regression model using scikit-learn, and deployed using a production-ready FastAPI backend.
+
+- Robust Testing
+    - Unit tests with pytest ensure correctness across preprocessing, modeling, and API functionality.
+
+- Cloud Deployment on Render
+    - Fully deployed with Render
+
 
 ### Setup
 - the conda environment was set up with:
@@ -20,7 +31,7 @@ conda activate ml_fastapi
 ### Additional code added
 
 #### Model Training and Testing
-- ```./run_model_train_test.sh```
+- ```./scripts/run_model_train_test.sh```
     - contains the Bash commands to execute every step of the model training/evaluation chain
     - can be excuted to run the entire model training/evaluation chain
 - Data cleansing step in folder /data
@@ -33,8 +44,12 @@ conda activate ml_fastapi
     ```./evaluate_model.py```
     
 #### API
-- the app can be run with:
-```./run_app.sh```
+- the code for the application is contained in 
+```./main.py```
+- the app can be run locally with:
+```./scripts/run_app.sh```
+- requirements.txt
+    - dependencies for the deployment on Render.com
 
 
 # Original README from Udacity is preserved below:
