@@ -7,7 +7,7 @@ The model was created by Bernd Galler. It was derived by using Logistic Regressi
 This model should be used to predict salary based on census data. 
 
 ## Training Data
-The was trained on a labeled data set (label "salary" - binarized for training) of Census Bureau data containing 26048 observations including categorical and numberical variables. This corresponds to 80% of the available data. Data preprocessing included encoding categorical features. 
+The was trained on a labeled data set (label "salary" - binary: >50K, <=50K) of Census Bureau data containing 26048 observations including categorical and numberical variables. This corresponds to 80% of the available data. Data preprocessing included encoding categorical features. 
 
 ## Evaluation Data
 The model was evaluated on a hold-out test set of 6513 observations (20% of the total data). Performance was measured on metrics such as accuracy, precision, recall, F1-score and AUC to ensure balanced evaluation accross classes.

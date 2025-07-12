@@ -18,18 +18,23 @@ conda activate ml_fastapi
 ```
 
 ### Additional code added
+
+#### Model Training and Testing
+- ```./run_model_train_test.sh```
+    - contains the Bash commands to execute every step of the model training/evaluation chain
+    - can be excuted to run the entire model training/evaluation chain
 - Data cleansing step in folder /data
-    - ```clean_data.py``` reads the input data, i.e., ```census.csv``` and outputs a csv file without blanks, i.e., ```census_cleaned.csv```
+    - ```./data/clean_data.py``` reads the input data, i.e., ```census.csv``` and outputs a csv file without blanks, i.e., ```census_cleaned.csv```
 - Model training...
     ```./ml/model.py```
 - To test functions:
     ```pytest ./tests/unit_tests.py```
 - To evaluate the model on slices:
-    ```evaluate_model.py```
-- ```run_model_train_test.sh```
-    - contains the Bash commands to execute every step of the model training/evaluation chain
-    - can be excuted to run the entire model training/evaluation chain
+    ```./evaluate_model.py```
     
+#### API
+- the app can be run with:
+```./run_app.sh```
 
 
 # Original README from Udacity is preserved below:

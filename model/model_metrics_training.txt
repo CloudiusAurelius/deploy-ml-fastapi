@@ -1,4 +1,4 @@
-Precision: 0.7094
-Recall: 0.2477
-F-beta: 0.3672
-ROC AUC: 0.6084
+Precision: 0.6839
+Recall: 0.2605
+F-beta: 0.3772
+ROC AUC: 0.6110

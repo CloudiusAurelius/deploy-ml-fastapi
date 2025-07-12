@@ -1,2 +1,2 @@
-Feature: sex,                    Value:  Male,                    Precision: 0.7667,                    Recall: 0.2600,                    F-beta: 0.3883,                    AUC: 0.6126
-Feature: sex,                    Value:  Female,                    Precision: 0.5408,                    Recall: 0.2867,                    F-beta: 0.3747,                    AUC: 0.6284
+Feature: sex,                    Value:  Male,                    Precision: 0.7634,                    Recall: 0.2639,                    F-beta: 0.3922,                    AUC: 0.6139
+Feature: sex,                    Value:  Female,                    Precision: 0.5335,                    Recall: 0.2901,                    F-beta: 0.3758,                    AUC: 0.6295

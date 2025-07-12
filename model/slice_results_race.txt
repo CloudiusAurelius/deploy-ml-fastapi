@@ -1,5 +1,5 @@
-Feature: race,                    Value:  White,                    Precision: 0.7279,                    Recall: 0.2635,                    F-beta: 0.3869,                    AUC: 0.6148
-Feature: race,                    Value:  Black,                    Precision: 0.6205,                    Recall: 0.2661,                    F-beta: 0.3725,                    AUC: 0.6216
-Feature: race,                    Value:  Asian-Pac-Islander,                    Precision: 0.7019,                    Recall: 0.2645,                    F-beta: 0.3842,                    AUC: 0.6119
+Feature: race,                    Value:  White,                    Precision: 0.7232,                    Recall: 0.2677,                    F-beta: 0.3907,                    AUC: 0.6162
+Feature: race,                    Value:  Black,                    Precision: 0.6182,                    Recall: 0.2636,                    F-beta: 0.3696,                    AUC: 0.6203
+Feature: race,                    Value:  Asian-Pac-Islander,                    Precision: 0.6981,                    Recall: 0.2681,                    F-beta: 0.3874,                    AUC: 0.6131
 Feature: race,                    Value:  Amer-Indian-Eskimo,                    Precision: 0.4783,                    Recall: 0.3056,                    F-beta: 0.3729,                    AUC: 0.6310
-Feature: race,                    Value:  Other,                    Precision: 0.5333,                    Recall: 0.3200,                    F-beta: 0.4000,                    AUC: 0.6458
+Feature: race,                    Value:  Other,                    Precision: 0.5000,                    Recall: 0.3200,                    F-beta: 0.3902,                    AUC: 0.6437

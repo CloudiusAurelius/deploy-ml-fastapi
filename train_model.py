@@ -66,6 +66,11 @@ logger.info(f"Test data:\
             number of rows: {test_n_rows},\
             number of columns: {test_n_columns}")
 
+# Store feature names
+feature_names = train.drop([label_column], axis=1)\
+    .columns\
+    .tolist()
+logging.info(f"Feature names: {feature_names}")
 
 
 # Process the training data with the process_data function.
@@ -120,6 +125,7 @@ model_info = {
     "created_at": current_datetime,
     "model": model,
     "params": model.get_params(),
+    "features": feature_names,
     "precision": precision,
     "recall": recall,
     "fbeta": fbeta,
